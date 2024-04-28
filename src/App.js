@@ -39,7 +39,7 @@ function App() {
   };
   
 
-  
+  //declarations of "classes" in js
   const [coolingCenters, setCoolingCenters] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
