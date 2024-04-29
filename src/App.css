@@ -50,7 +50,7 @@
 
 .searchBar {
   flex: 1; 
-  width: 700px; /* Adjust width to accommodate button */
+  width: 40vw; /* Adjust width to accommodate button */
   max-width: 700px;
   border-radius: 20px;
   padding: 10px;
