@@ -12,6 +12,8 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+
+
 .App {
   text-align: center;
   min-height: 100vh; /* This ensures the background covers the entire viewport */
@@ -20,8 +22,59 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background: rgb(211, 255, 253);
+  background: linear-gradient(180deg, rgba(211, 255, 253, 1) 0%, rgba(149, 241, 237, 1) 22%, rgba(91, 197, 219, 1) 51%, rgba(94, 169, 252, 1) 100%);
+
+}
+.title {
+  position: fixed;
+  top: 5%;
+  left: 5%;
+  color: black;
+  font-size: 4vw;
+  font-weight: bold;
+  text-align: left;
+  max-width: 50%;
+  margin: 3% 3%;
+  word-wrap: break-word;
+}
+.searchBarContainer {
+  position: fixed;
+  top: 40%;
+  left: 5%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 3% 3%;
 }
 
+.searchBar {
+  flex: 1; 
+  width: 700px; /* Adjust width to accommodate button */
+  max-width: 700px;
+  border-radius: 20px;
+  padding: 10px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+  border: none;
+  outline: none;
+}
+
+.searchButton {
+  border-radius: 20px;
+  padding: 10px 20px;
+  background-color: #5c9ed1; /* Adjust color as needed */
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin: 1% 1%;
+
+}
+
+.searchButton:hover {
+  background-color: #407aa6; /* Adjust hover color as needed */
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
