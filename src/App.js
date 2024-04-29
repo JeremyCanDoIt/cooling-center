@@ -48,7 +48,7 @@ function App() {
     //Function to fetch cooling center data from the API
     const fetchCoolingCenters = async () => {
       try {
-        const response = await fetch(// only retrieve names right now
+        const response = await fetch(//only retrieve names right now
           'https://public.gis.lacounty.gov/public/rest/services/LACounty_Dynamic/LMS_Data_Public/MapServer/55/query?outFields=Name&where=1%3D1&f=geojson'
         );
         const data = await response.json();
