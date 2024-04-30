@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 function SearchPage() {
   const { term } = useParams();
   const [coolingCenters, setCoolingCenters] = useState([]);
+  const [selectedCenter, setSelectedCenter] = useState(null);
 
   useEffect(() => {
     if (term) {
@@ -24,14 +25,31 @@ function SearchPage() {
     }
   }, [term]);
 
+  const handleCenterClick = (center) => {
+    setSelectedCenter(center);
+    // Additional logic for when a center is selected
+    console.log(`User selected: ${center}`);
+  };
+
   return (
     <div>
       <h1>Cooling Centers for "{term}"</h1>
       <ul>
         {coolingCenters.map((center, index) => (
-          <li key={index}>{center}</li>
+          <li key={index}>
+            {center}
+            <button onClick={() => handleCenterClick(center)}>Select</button>
+          </li>
         ))}
       </ul>
+      {/* Optionally render more information about the selected center */}
+      {selectedCenter && (
+        <div>
+          <h2>Selected Center:</h2>
+          <p>{selectedCenter}</p>
+          {/* Additional details about the selected center */}
+        </div>
+      )}
     </div>
   );
 }
