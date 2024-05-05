@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import SearchPage from './SearchPage.css'; // Make sure to create this CSS file
+import './SearchPage.css'; // Ensure you have this CSS file
 
 function SearchPage1() {
   const { term } = useParams();
-  const [coolingCenters, setCcoolingCenters] = useState([]);
+  const [coolingCenters, setCoolingCenters] = useState([]);
   const [selectedCenter, setSelectedCenter] = useState(null);
 
   useEffect(() => {
@@ -15,7 +15,7 @@ function SearchPage1() {
             `https://public.gis.lacounty.gov/public/rest/services/LACounty_Dynamic/LMS_Data_Public/MapServer/55/query?outFields=Name&where=LOWER(Name) LIKE '%25${encodeURIComponent(term.toLowerCase())}%25'&f=geojson`
           );
           const data = await response.json();
-          setCcoolingCenters(data.features.map(feature => feature.properties.Name));
+          setCoolingCenters(data.features.map(feature => feature.properties.Name));
         } catch (error) {
           console.error('Error fetching cooling centers:', error);
         }
@@ -33,13 +33,17 @@ function SearchPage1() {
   return (
     <div>
       <h1>Cooling Centers for "{term}"</h1>
-      <div className="grid-container">
-        {coolingCenters.map((center, index) => (
-          <button key={index} onClick={() => handleCenterClick(center)} className="grid-item">
-            {center}
-          </button>
-        ))}
-      </div>
+      {coolingCenters.length > 0 ? (
+        <div className="grid-container">
+          {coolingCenters.map((center, index) => (
+            <button key={index} onClick={() => handleCenterClick(center)} className="grid-item">
+              {center}
+            </button>
+          ))}
+        </div>
+      ) : (
+        <p>No results found.</p>
+      )}
       {selectedCenter && (
         <div>
           <h2>Selected Center:</h2>
