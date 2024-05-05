@@ -1,0 +1,20 @@
+.result-screen {
+    border: 2px solid black;
+    padding: 20px;
+    margin: 20px;
+  }
+  
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three columns */
+    grid-gap: 10px;
+  }
+  
+  .grid-item {
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    text-align: center;
+  }
+  
