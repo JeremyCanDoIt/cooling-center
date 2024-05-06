@@ -1,42 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import './SearchPage.css'; // Ensure you have this CSS file
 
 function SearchPage1() {
   const { term } = useParams();
+  const navigate = useNavigate();
   const [coolingCenters, setCoolingCenters] = useState([]);
-  const [selectedCenter, setSelectedCenter] = useState(null);
 
   useEffect(() => {
-    if (term) {
-      const fetchCoolingCenters = async () => {
-        try {
-          const response = await fetch(
-            `https://public.gis.lacounty.gov/public/rest/services/LACounty_Dynamic/LMS_Data_Public/MapServer/55/query?outFields=Name,addrln1,phones,email,hours&where=LOWER(Name) LIKE '%25${encodeURIComponent(term.toLowerCase())}%25'&f=geojson`
-          );
-          const data = await response.json();
-          setCoolingCenters(data.features.map(feature => ({
-            name: feature.properties.Name,
-            address: feature.properties.addrln1,
-            phone: feature.properties.phones,
-            email: feature.properties.email,
-            hours: feature.properties.hours
-          })));
-        } catch (error) {
-          console.error('Error fetching cooling centers:', error);
-        }
-      };
+    const fetchCoolingCenters = async () => {
+      try {
+        const response = await fetch(
+          `https://public.gis.lacounty.gov/public/rest/services/LACounty_Dynamic/LMS_Data_Public/MapServer/55/query?outFields=Name,addrln1,phones,email,hours&where=LOWER(Name) LIKE '%${encodeURIComponent(term.toLowerCase())}%'&f=geojson`
+        );
+        if (!response.ok) throw new Error('Failed to fetch centers');
+        const data = await response.json();
+        setCoolingCenters(data.features.map(feature => ({
+          name: feature.properties.Name, // Ensure case is correct as expected
+          address: feature.properties.addrln1,
+          phone: feature.properties.phones,
+          email: feature.properties.email,
+          hours: feature.properties.hours
+        })));
+      } catch (error) {
+        console.error('Error fetching cooling centers:', error);
+      }
+    };
 
-      fetchCoolingCenters();
-    }
+    fetchCoolingCenters();
   }, [term]);
 
   const handleCenterClick = (center) => {
-    setSelectedCenter(center);
-  };
-
-  const handleConfirm = () => {
-    alert(`You have confirmed your selection: ${selectedCenter.name}`);
+    // Here you could also navigate directly, removing the need for a confirm step
+    console.log("Navigating with:", center.name, center.address, center.phone, center.email, center.hours); // This should log the center object
+  navigate(`/center/details`, { state: { center } });
   };
 
   return (
@@ -54,20 +51,7 @@ function SearchPage1() {
             </button>
           ))}
         </div>
-      ) : (
-        <p>No results found.</p>
-      )}
-      {selectedCenter && (
-        <div className="selected-center-container">
-          <div className="selected-center-details">
-            <h2>Selected Center:</h2>
-            <p>Name: {selectedCenter.name}</p>
-          </div>
-          <button className="confirm-button" onClick={() => alert(`You have confirmed your selection: ${selectedCenter.name}`)}>
-            Confirm
-          </button>
-        </div>
-      )}
+      ) : <p>No results found.</p>}
     </div>
   );
 }
