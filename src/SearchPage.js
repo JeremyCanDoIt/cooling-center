@@ -11,11 +11,18 @@ function SearchPage1() {
     if (term) {
       const fetchCoolingCenters = async () => {
         try {
+          // Fetch additional details
           const response = await fetch(
-            `https://public.gis.lacounty.gov/public/rest/services/LACounty_Dynamic/LMS_Data_Public/MapServer/55/query?outFields=Name&where=LOWER(Name) LIKE '%25${encodeURIComponent(term.toLowerCase())}%25'&f=geojson`
+            `https://public.gis.lacounty.gov/public/rest/services/LACounty_Dynamic/LMS_Data_Public/MapServer/55/query?outFields=Name,addrln1,phones,email,hours&where=LOWER(Name) LIKE '%25${encodeURIComponent(term.toLowerCase())}%25'&f=geojson`
           );
           const data = await response.json();
-          setCoolingCenters(data.features.map(feature => feature.properties.Name));
+          setCoolingCenters(data.features.map(feature => ({
+            name: feature.properties.Name,
+            address: feature.properties.addrln1,
+            phone: feature.properties.phones,
+            email: feature.properties.email,
+            hours: feature.properties.hours
+          })));
         } catch (error) {
           console.error('Error fetching cooling centers:', error);
         }
@@ -27,7 +34,7 @@ function SearchPage1() {
 
   const handleCenterClick = (center) => {
     setSelectedCenter(center);
-    console.log(`User selected: ${center}`);
+    console.log(`User selected:`, center);
   };
 
   return (
@@ -37,7 +44,11 @@ function SearchPage1() {
         <div className="grid-container">
           {coolingCenters.map((center, index) => (
             <button key={index} onClick={() => handleCenterClick(center)} className="grid-item">
-              {center}
+              <div>{center.name}</div>
+              <div>{center.address}</div>
+              <div>{center.phone}</div>
+              <div>{center.email}</div>
+              <div>{center.hours}</div>
             </button>
           ))}
         </div>
@@ -47,7 +58,11 @@ function SearchPage1() {
       {selectedCenter && (
         <div>
           <h2>Selected Center:</h2>
-          <p>{selectedCenter}</p>
+          <p>Name: {selectedCenter.name}</p>
+          <p>Address: {selectedCenter.address}</p>
+          <p>Phone: {selectedCenter.phone}</p>
+          <p>Email: {selectedCenter.email}</p>
+          <p>Hours: {selectedCenter.hours}</p>
         </div>
       )}
     </div>
