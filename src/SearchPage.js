@@ -11,7 +11,6 @@ function SearchPage1() {
     if (term) {
       const fetchCoolingCenters = async () => {
         try {
-          // Fetch additional details
           const response = await fetch(
             `https://public.gis.lacounty.gov/public/rest/services/LACounty_Dynamic/LMS_Data_Public/MapServer/55/query?outFields=Name,addrln1,phones,email,hours&where=LOWER(Name) LIKE '%25${encodeURIComponent(term.toLowerCase())}%25'&f=geojson`
           );
@@ -34,11 +33,14 @@ function SearchPage1() {
 
   const handleCenterClick = (center) => {
     setSelectedCenter(center);
-    console.log(`User selected:`, center);
+  };
+
+  const handleConfirm = () => {
+    alert(`You have confirmed your selection: ${selectedCenter.name}`);
   };
 
   return (
-    <div>
+    <div className="search-page">
       <h1>Cooling Centers for "{term}"</h1>
       {coolingCenters.length > 0 ? (
         <div className="grid-container">
@@ -56,13 +58,14 @@ function SearchPage1() {
         <p>No results found.</p>
       )}
       {selectedCenter && (
-        <div>
-          <h2>Selected Center:</h2>
-          <p>Name: {selectedCenter.name}</p>
-          <p>Address: {selectedCenter.address}</p>
-          <p>Phone: {selectedCenter.phone}</p>
-          <p>Email: {selectedCenter.email}</p>
-          <p>Hours: {selectedCenter.hours}</p>
+        <div className="selected-center-container">
+          <div className="selected-center-details">
+            <h2>Selected Center:</h2>
+            <p>Name: {selectedCenter.name}</p>
+          </div>
+          <button className="confirm-button" onClick={() => alert(`You have confirmed your selection: ${selectedCenter.name}`)}>
+            Confirm
+          </button>
         </div>
       )}
     </div>

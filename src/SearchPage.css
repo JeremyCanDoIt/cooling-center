@@ -18,3 +18,14 @@
     text-align: center;
   }
   
+  .confirm-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-left: 20px; /* Adds space between the details and the button */
+    position: relative;
+    top: -10px; /* Moves the button 10 pixels upward */
+  }
+  
