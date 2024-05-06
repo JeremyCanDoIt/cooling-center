@@ -18,6 +18,7 @@ function SearchPage1() {
         setCoolingCenters(data.features.map(feature => ({
           name: feature.properties.Name, // Ensure case is correct as expected
           address: feature.properties.addrln1,
+          zip: feature.properties.zip,
           phone: feature.properties.phones,
           email: feature.properties.email,
           hours: feature.properties.hours
@@ -32,7 +33,7 @@ function SearchPage1() {
 
   const handleCenterClick = (center) => {
     // Here you could also navigate directly, removing the need for a confirm step
-    console.log("Navigating with:", center.name, center.address, center.phone, center.email, center.hours); // This should log the center object
+    console.log("Navigating with:", center.name, center.address, center.zip, center.phone, center.email, center.hours); // This should log the center object
   navigate(`/center/details`, { state: { center } });
   };
 
