@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import './SearchPage.css'; // Ensure you have this CSS file
-
+import './SearchPage.css'; 
 function SearchPage1() {
   const { term } = useParams();
   const navigate = useNavigate();
@@ -16,7 +15,7 @@ function SearchPage1() {
         if (!response.ok) throw new Error('Failed to fetch centers');
         const data = await response.json();
         setCoolingCenters(data.features.map(feature => ({
-          name: feature.properties.Name, // Ensure case is correct as expected
+          name: feature.properties.Name, 
           address: feature.properties.addrln1,
           zip: feature.properties.zip,
           phone: feature.properties.phones,
@@ -32,7 +31,6 @@ function SearchPage1() {
   }, [term]);
 
   const handleCenterClick = (center) => {
-    // Here you could also navigate directly, removing the need for a confirm step
     console.log("Navigating with:", center.name, center.address, center.zip, center.phone, center.email, center.hours); // This should log the center object
   navigate(`/center/details`, { state: { center } });
   };

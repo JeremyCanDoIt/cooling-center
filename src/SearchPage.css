@@ -6,7 +6,7 @@
   
   .grid-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Three columns */
+    grid-template-columns: repeat(3, 1fr); 
     grid-gap: 10px;
   }
   
@@ -24,8 +24,8 @@
     color: white;
     border: none;
     cursor: pointer;
-    margin-left: 20px; /* Adds space between the details and the button */
+    margin-left: 20px; 
     position: relative;
-    top: -30px; /* Moves the button 10 pixels upward */
+    top: -30px; 
   }
   

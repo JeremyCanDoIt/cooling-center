@@ -64,7 +64,7 @@
 .searchButton {
   border-radius: 20px;
   padding: 10px 20px;
-  background-color: #5c9ed1; /* Adjust color as needed */
+  background-color: #5c9ed1; 
   color: white;
   border: none;
   cursor: pointer;
@@ -73,7 +73,7 @@
 }
 
 .searchButton:hover {
-  background-color: #407aa6; /* Adjust hover color as needed */
+  background-color: #407aa6;
 }
 .App-header {
   background-color: #282c34;

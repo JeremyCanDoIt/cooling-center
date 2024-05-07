@@ -1,55 +1,77 @@
-import './App.css';
 import React, { useState, useEffect } from 'react';
-import WaveRibbon from './WaveRibbon'; //Import the WaveRibbon component
+import { useNavigate } from 'react-router-dom';
+import './App.css';
+import WaveRibbon from './WaveRibbon';
+
+// Move weatherCodeMap outside of the component
+const weatherCodeMap = {
+  "0": "Clear sky",
+  "1": "Mainly clear",
+  "2": "Partly cloudy",
+  "3": "Overcast",
+  "45": "Fog",
+  "48": "Depositing rime fog",
+  "51": "Drizzle: Light",
+  "53": "Drizzle: Moderate",
+  "55": "Drizzle: Dense intensity",
+  "56": "Freezing Drizzle: Light",
+  "57": "Freezing Drizzle: Dense intensity",
+  "61": "Rain: Slight",
+  "63": "Rain: Moderate",
+  "65": "Rain: Heavy intensity",
+  "66": "Freezing Rain: Light",
+  "67": "Freezing Rain: Heavy intensity",
+  "71": "Snow fall: Slight",
+  "73": "Snow fall: Moderate",
+  "75": "Snow fall: Heavy intensity",
+  "77": "Snow grains",
+  "80": "Rain showers: Slight",
+  "81": "Rain showers: Moderate",
+  "82": "Rain showers: Violent",
+  "85": "Snow showers slight",
+  "86": "Snow showers heavy",
+  "95": "Thunderstorm: Slight or moderate",
+  "96": "Thunderstorm with slight hail",
+  "99": "Thunderstorm with heavy hail"
+};
 
 function HomePage() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [weather, setWeather] = useState({ temp: '', windSpeed: '', time: '' });
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');  
+  const [weather, setWeather] = useState({ temp: '', condition: '', time: '' });
+
+  useEffect(() => {
+    const fetchWeather = async () => {
+      const response = await fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=39.76&longitude=-98.5&current=temperature_2m,rain,weather_code&hourly=temperature_2m&daily=weather_code&timezone=America%2FLos_Angeles`
+      );
+      const data = await response.json();
+      if (data && data.current) {
+        setWeather({
+          temp: `${data.current.temperature_2m} °C`,
+          condition: weatherCodeMap[data.current.weather_code.toString()] || 'Weather data not available',
+          time: new Date().toLocaleTimeString()
+        });
+      }
+    };
+
+    fetchWeather();
+  }, []); // weatherCodeMap is not in the dependency array because it is constant
 
   const handleSearchChange = event => {
     setSearchTerm(event.target.value);
   };
 
   const handleSearchSubmit = () => {
-    window.location.href = `/search/${encodeURIComponent(searchTerm)}`;
+    navigate(`/search/${encodeURIComponent(searchTerm)}`);
   };
-
-  useEffect(() => {
-    const fetchWeather = async () => {
-      const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,wind_speed_10m`);
-      const data = await response.json();
-      console.log("Weather Data:", data); // Log the API response
-      if (data && data.current) {
-        setWeather({
-          temp: `${data.current.temperature_2m} °C`,
-          windSpeed: `${data.current.wind_speed_10m} km/h`,
-          time: new Date().toLocaleTimeString() // Display the current time
-        });
-      }
-    };
-
-    fetchWeather();
-    // Update time every minute
-    const timerId = setInterval(() => {
-      setWeather(prevWeather => ({
-        ...prevWeather,
-        time: new Date().toLocaleTimeString() // Update time
-      }));
-    }, 60000);
-
-    // Cleanup interval on component unmount
-    return () => clearInterval(timerId);
-  }, []);
 
   return (
     <div className="App">
-      <div className="title">
-        Find a Cooling Center Near You
-      </div>
-
+      <div className="title">Find a Cooling Center Near You</div>
       <div className="searchBarContainer">
         <input
-          className='searchBar'
+          className="searchBar"
           type="text"
           placeholder="Search..."
           value={searchTerm}
@@ -57,12 +79,9 @@ function HomePage() {
         />
         <button className="searchButton" onClick={handleSearchSubmit}>Search</button>
       </div>
-      
-      <WaveRibbon /> {/* Include the WaveRibbon component */}
-
-      {/* Weather display in the top-right corner */}
+      <WaveRibbon />
       <div className="weatherInfo">
-        Temperature: {weather.temp} | Wind Speed: {weather.windSpeed} | Time: {weather.time}
+        Temperature: {weather.temp} | Weather: {weather.condition} | Time: {weather.time}
       </div>
     </div>
   );
