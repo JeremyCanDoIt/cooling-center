@@ -17,9 +17,9 @@ function SearchPage1() {
         setCoolingCenters(data.features.map(feature => ({
           name: feature.properties.Name, 
           address: feature.properties.addrln1,
-          zip: feature.properties.zip,
+          des: feature.properties.description,
           phone: feature.properties.phones,
-          email: feature.properties.email,
+          use_type: feature.properties.use_type,
           hours: feature.properties.hours
         })));
       } catch (error) {
@@ -31,7 +31,7 @@ function SearchPage1() {
   }, [term]);
 
   const handleCenterClick = (center) => {
-    console.log("Navigating with:", center.name, center.address, center.zip, center.phone, center.email, center.hours); // This should log the center object
+    console.log("Navigating with:", center.name, center.address, center.des, center.phone, center.use_type, center.hours); // This should log the center object
   navigate(`/center/details`, { state: { center } });
   };
 
@@ -45,7 +45,6 @@ function SearchPage1() {
               <div>{center.name}</div>
               <div>{center.address}</div>
               <div>{center.phone}</div>
-              <div>{center.email}</div>
               <div>{center.hours}</div>
             </button>
           ))}

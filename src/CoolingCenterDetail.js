@@ -14,9 +14,9 @@ function CoolingCenterDetail() {
     <div className="center-detail">
       <h1>{center.name || 'Information Not Available'}</h1>
       <p>Address: {center.address || 'Information Not Available'}</p>
-      <p>Zip: {center.zip || 'Information Not Available'}</p>
+      <p>Description: {center.des || 'Information Not Available'}</p>
       <p>Phone: {center.phone || 'Information Not Available'}</p>
-      <p>Email: {center.email || 'Information Not Available'}</p>
+      <p>Use_type: {center.use_type || 'Information Not Available'}</p>
       <p>Hours: {center.hours || 'Information Not Available'}</p>
     </div>
   );

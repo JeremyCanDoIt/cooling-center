@@ -56,7 +56,7 @@ function HomePage() {
     };
 
     fetchWeather();
-  }, []); // weatherCodeMap is not in the dependency array because it is constant
+  }, []); 
 
   const handleSearchChange = event => {
     setSearchTerm(event.target.value);
