@@ -3,7 +3,25 @@ import { useNavigate } from 'react-router-dom';
 import './App.css';
 import WaveRibbon from './WaveRibbon';
 
-// Move weatherCodeMap outside of the component
+const uvcodemap = {
+  "0": "Low",
+  "1": "Low",
+  "2": "Low",
+  "3": "Moderate",
+  "4": "Moderate",
+  "5": "Moderate",
+  "6": "High",
+  "7": "High",
+  "8": "Very High",
+  "9": "Very High",
+  "10": "Very High",
+  "11": "Extreme"
+};
+
+
+
+
+
 const weatherCodeMap = {
   "0": "Unknown",
       "1000": "Clear, Sunny",
@@ -34,7 +52,7 @@ const weatherCodeMap = {
 function HomePage() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');  
-  const [weather, setWeather] = useState({ temp: '', condition: '', time: '' });
+  const [weather, setWeather] = useState({ temp: '', condition: '', time: '' , uv:'', windSpeed:'', Probability_of_precipitation:''});
 
   useEffect(() => {
     const fetchWeather = async () => {
@@ -55,7 +73,10 @@ function HomePage() {
           setWeather({
             temp: `${currentData.temperature} °C`,
             condition: weatherCodeMap[currentData.weatherCode.toString()] || 'Weather data not available',
-            time: new Date(data.data.time).toLocaleTimeString()
+            time: new Date(data.data.time).toLocaleTimeString(),
+            uv: uvcodemap[currentData.uvIndex],
+            windSpeed:`${currentData.windSpeed} m/s`,
+            Probability_of_precipitation:`${currentData.precipitationProbability} %`
           });
         }
       } catch (error) {
@@ -93,7 +114,7 @@ function HomePage() {
       </div>
       <WaveRibbon />
       <div className="weatherInfo">
-        Temperature: {weather.temp} | Weather: {weather.condition} | Time: {weather.time}
+        Temperature: {weather.temp} | Weather: {weather.condition} | Time: {weather.time} | UV:{weather.uv} | windSpeed:{weather.windSpeed} | Probability_of_precipitation:{weather.Probability_of_precipitation}
       </div>
     </div>
   );
