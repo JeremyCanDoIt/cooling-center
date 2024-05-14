@@ -67,7 +67,7 @@ function HomePage() {
           return;
         }
     
-        // Access the temperature and weatherCode from the API response
+        
         if (data && data.data && data.data.values) {
           const currentData = data.data.values;
           setWeather({
