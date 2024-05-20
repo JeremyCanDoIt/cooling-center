@@ -52,13 +52,13 @@ const weatherCodeMap = {
 function HomePage() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');  
-  const [weather, setWeather] = useState({ temp: '', condition: '', time: '' , uv:'', windSpeed:'', Probability_of_precipitation:''});
+  const [weather, setWeather] = useState({ temp: '', condition: '', time: '' , uv:'', windSpeed:'', Probability_of_precipitation:'', humidity:''});
 
   useEffect(() => {
     const fetchWeather = async () => {
       try {
         const response = await fetch(
-          'https://api.tomorrow.io/v4/weather/realtime?location=LA&apikey=KhFP3byInIHIGi5oeDWUywBFECUoDFRR'
+          'https://api.tomorrow.io/v4/weather/realtime?location=Irvine&apikey=KhFP3byInIHIGi5oeDWUywBFECUoDFRR'
         );
         const data = await response.json();
         
@@ -67,7 +67,7 @@ function HomePage() {
           return;
         }
     
-        // Access the temperature and weatherCode from the API response
+        
         if (data && data.data && data.data.values) {
           const currentData = data.data.values;
           setWeather({
@@ -76,7 +76,8 @@ function HomePage() {
             time: new Date(data.data.time).toLocaleTimeString(),
             uv: uvcodemap[currentData.uvIndex],
             windSpeed:`${currentData.windSpeed} m/s`,
-            Probability_of_precipitation:`${currentData.precipitationProbability} %`
+            Probability_of_precipitation:`${currentData.precipitationProbability} %`,
+            humidity:`${currentData.humidity} %`
           });
         }
       } catch (error) {
@@ -114,7 +115,7 @@ function HomePage() {
       </div>
       <WaveRibbon />
       <div className="weatherInfo">
-        Temperature: {weather.temp} | Weather: {weather.condition} | Time: {weather.time} | UV:{weather.uv} | windSpeed:{weather.windSpeed} | Probability_of_precipitation:{weather.Probability_of_precipitation}
+        Temperature: {weather.temp} | Weather: {weather.condition} | Time: {weather.time} | UV:{weather.uv} | windSpeed:{weather.windSpeed} | Probability_of_precipitation:{weather.Probability_of_precipitation}| humidity:{weather.humidity}
       </div>
     </div>
   );
