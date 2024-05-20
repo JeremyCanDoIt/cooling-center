@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import './SearchPage.css'; 
-function SearchPage1() {
+import './SearchPage.css';
+
+function SearchPage() {
   const { term } = useParams();
   const navigate = useNavigate();
   const [coolingCenters, setCoolingCenters] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   useEffect(() => {
     const fetchCoolingCenters = async () => {
@@ -32,26 +35,42 @@ function SearchPage1() {
 
   const handleCenterClick = (center) => {
     console.log("Navigating with:", center.name, center.address, center.des, center.phone, center.use_type, center.hours); // This should log the center object
-  navigate(`/center/details`, { state: { center } });
+    navigate(`/center/details`, { state: { center } });
+  };
+
+  const totalPages = Math.ceil(coolingCenters.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentCenters = coolingCenters.slice(startIndex, endIndex);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
   return (
     <div className="search-page">
       <h1>Cooling Centers for "{term}"</h1>
       {coolingCenters.length > 0 ? (
-        <div className="grid-container">
-          {coolingCenters.map((center, index) => (
-            <button key={index} onClick={() => handleCenterClick(center)} className="grid-item">
-              <div>{center.name}</div>
-              <div>{center.address}</div>
-              <div>{center.phone}</div>
-              <div>{center.hours}</div>
-            </button>
-          ))}
-        </div>
+        <>
+          <div className="grid-container">
+            {currentCenters.map((center, index) => (
+              <button key={index} onClick={() => handleCenterClick(center)} className="grid-item">
+                <div>{center.name}</div>
+                <div>{center.phone}</div>
+                <div>{center.hours}</div>
+              </button>
+            ))}
+          </div>
+
+          <div className="pagination">
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button key={i} onClick={() => handlePageChange(i + 1)}>{i + 1}</button>
+            ))}
+          </div>
+        </>
       ) : <p>No results found.</p>}
     </div>
   );
 }
 
-export default SearchPage1;
+export default SearchPage;

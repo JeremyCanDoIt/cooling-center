@@ -73,11 +73,11 @@ function HomePage() {
           setWeather({
             temp: `${currentData.temperature} °C`,
             condition: weatherCodeMap[currentData.weatherCode.toString()] || 'Weather data not available',
-            time: new Date(data.data.time).toLocaleTimeString(),
             uv: uvcodemap[currentData.uvIndex],
             windSpeed:`${currentData.windSpeed} m/s`,
             Probability_of_precipitation:`${currentData.precipitationProbability} %`,
-            humidity:`${currentData.humidity} %`
+            humidity:`${currentData.humidity} %`,
+            time: new Date(data.data.time).toLocaleTimeString()
           });
         }
       } catch (error) {
@@ -86,7 +86,16 @@ function HomePage() {
     };
   
     fetchWeather();
+    const intervalId = setInterval(() => {
+      setWeather(prevWeather => ({
+        ...prevWeather,
+        time: new Date().toLocaleTimeString()
+      }));
+    }, 1000);
+  
+    return () => clearInterval(intervalId);  // Cleanup interval on component unmount
   }, []);
+  
   
   
   
