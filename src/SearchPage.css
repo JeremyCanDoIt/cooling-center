@@ -1,0 +1,56 @@
+
+.result-screen {
+    border: 2px solid black;
+    padding: 20px;
+    margin: 20px;
+  }
+  
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(250px, 1fr)); /* 4 columns, adjust as needed */
+    grid-gap: 20px; /* Increased gap between items */
+  }
+  
+  .grid-item {
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 20px; /* Rounded edges */
+    transition: box-shadow 0.3s; /* Smooth transition for box-shadow */;
+    max-width: 500px
+  }
+  
+  .grid-item:hover {
+    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1); /* Shadow effect on hover */
+  }
+  
+  .confirm-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-left: 20px; 
+    position: relative;
+    top: -30px; 
+  }
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* Add margin to move the pagination buttons down */
+  }
+  
+  .pagination button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    background-color: #ccc;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .pagination button:hover {
+    background-color: #bfbfbf;
+  }
