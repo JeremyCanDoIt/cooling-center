@@ -1,9 +1,16 @@
 import './App.css';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import WaveRibbon from './WaveRibbon'; //Import the WaveRibbon component
 
 function HomePage() {
   const [searchTerm, setSearchTerm] = useState('');
+
+  const navigate = useNavigate();
+
+  const handleTipsClick = () => {
+    navigate('/tips');
+  };
 
   const handleSearchChange = event => {
     setSearchTerm(event.target.value);
@@ -29,6 +36,10 @@ function HomePage() {
             onChange={handleSearchChange}
           />
           <button className="searchButton" onClick={handleSearchSubmit}>Search</button>
+        </div>
+
+        <div className="Tips">
+          <button className="tipsButton" onClick={handleTipsClick}>Tips to Cool Down</button>
         </div>
         
       <WaveRibbon /> {/* Include the WaveRibbon component */}

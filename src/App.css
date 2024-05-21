@@ -75,6 +75,27 @@
 .searchButton:hover {
   background-color: #407aa6; /* Adjust hover color as needed */
 }
+
+.tipsButton {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: fixed;
+  top: 5%;
+  right: 5%;
+  border-radius: 20px;
+  padding: 10px 20px;
+  background-color: #5c9ed1;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin: 1% 1%;
+}
+
+.tipsButton:hover {
+  background-color: #407aa6; /* Adjust hover color as needed */
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

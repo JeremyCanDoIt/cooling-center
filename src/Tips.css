@@ -1,0 +1,36 @@
+.Tips {
+    margin-top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    text-align: left;
+    align-items: left;
+    margin: 0;
+}
+
+.header {
+    top: 0%;
+    left: 5%;
+    color: black;
+    font-size: 2vw;
+    font-weight: bold;
+    text-align: left;
+    max-width: 50%;
+    word-wrap: break-word;
+    font-family: 'Courier New, Courier, monospace';
+    color: darkblue;
+}
+
+.div1 {
+    font-family: 'Courier New, Courier, monospace';
+    font-size: 30px;
+    color: white;
+}
+
+.urls {
+    font-family: 'Courier New, Courier, monospace';
+    font-size: 20px;
+}
+
+.image2 {
+
+}
