@@ -18,41 +18,37 @@ const uvcodemap = {
   "11": "Extreme"
 };
 
-
-
-
-
 const weatherCodeMap = {
   "0": "Unknown",
-      "1000": "Clear, Sunny",
-      "1100": "Mostly Clear",
-      "1101": "Partly Cloudy",
-      "1102": "Mostly Cloudy",
-      "1001": "Cloudy",
-      "2000": "Fog",
-      "2100": "Light Fog",
-      "4000": "Drizzle",
-      "4001": "Rain",
-      "4200": "Light Rain",
-      "4201": "Heavy Rain",
-      "5000": "Snow",
-      "5001": "Flurries",
-      "5100": "Light Snow",
-      "5101": "Heavy Snow",
-      "6000": "Freezing Drizzle",
-      "6001": "Freezing Rain",
-      "6200": "Light Freezing Rain",
-      "6201": "Heavy Freezing Rain",
-      "7000": "Ice Pellets",
-      "7101": "Heavy Ice Pellets",
-      "7102": "Light Ice Pellets",
-      "8000": "Thunderstorm"
+  "1000": "Clear, Sunny",
+  "1100": "Mostly Clear",
+  "1101": "Partly Cloudy",
+  "1102": "Mostly Cloudy",
+  "1001": "Cloudy",
+  "2000": "Fog",
+  "2100": "Light Fog",
+  "4000": "Drizzle",
+  "4001": "Rain",
+  "4200": "Light Rain",
+  "4201": "Heavy Rain",
+  "5000": "Snow",
+  "5001": "Flurries",
+  "5100": "Light Snow",
+  "5101": "Heavy Snow",
+  "6000": "Freezing Drizzle",
+  "6001": "Freezing Rain",
+  "6200": "Light Freezing Rain",
+  "6201": "Heavy Freezing Rain",
+  "7000": "Ice Pellets",
+  "7101": "Heavy Ice Pellets",
+  "7102": "Light Ice Pellets",
+  "8000": "Thunderstorm"
 };
 
 function HomePage() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
-  const [weather, setWeather] = useState({ temp: '', condition: '', time: '' , uv:'', windSpeed:'', Probability_of_precipitation:'', humidity:''});
+  const [weather, setWeather] = useState({ temp: '', condition: '', time: '', uv: '', windSpeed: '', Probability_of_precipitation: '', humidity: '' });
 
   useEffect(() => {
     const fetchWeather = async () => {
@@ -67,16 +63,15 @@ function HomePage() {
           return;
         }
 
-
         if (data && data.data && data.data.values) {
           const currentData = data.data.values;
           setWeather({
             temp: `${currentData.temperature} °C`,
             condition: weatherCodeMap[currentData.weatherCode.toString()] || 'Weather data not available',
             uv: uvcodemap[currentData.uvIndex],
-            windSpeed:`${currentData.windSpeed} m/s`,
-            Probability_of_precipitation:`${currentData.precipitationProbability} %`,
-            humidity:`${currentData.humidity} %`,
+            windSpeed: `${currentData.windSpeed} m/s`,
+            Probability_of_precipitation: `${currentData.precipitationProbability} %`,
+            humidity: `${currentData.humidity} %`,
             time: new Date(data.data.time).toLocaleTimeString()
           });
         }
@@ -93,15 +88,8 @@ function HomePage() {
       }));
     }, 1000);
 
-    return () => clearInterval(intervalId);  // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
-
-
-
-
-
-
-  const navigate = useNavigate();
 
   const handleTipsClick = () => {
     navigate('/tips');
@@ -116,34 +104,29 @@ function HomePage() {
   };
 
   return (
-      <div className="App">
-        <div className="title">
-          Find a Cooling Center Near You
-        </div>
-
-        <div className="searchBarContainer">
-          <input
-            className='searchBar'
-            type="text"
-            placeholder="Search..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-          />
-          <button className="searchButton" onClick={handleSearchSubmit}>Search</button>
-        </div>
-
-        <div className="Tips">
-          <button className="tipsButton" onClick={handleTipsClick}>Tips to Cool Down</button>
-        </div>
-
-      <WaveRibbon /> {/* Include the WaveRibbon component */}
+    <div className="App">
+      <div className="title">
+        Find a Cooling Center Near You
+      </div>
+      <div className="searchBarContainer">
+        <input
+          className='searchBar'
+          type="text"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+        <button className="searchButton" onClick={handleSearchSubmit}>Search</button>
+      </div>
+      <div className="Tips">
+        <button className="tipsButton" onClick={handleTipsClick}>Tips to Cool Down</button>
       </div>
       <WaveRibbon />
       <div className="weatherInfo">
-        Temperature: {weather.temp} | Weather: {weather.condition} | Time: {weather.time} | UV:{weather.uv} | windSpeed:{weather.windSpeed} | Probability_of_precipitation:{weather.Probability_of_precipitation}| humidity:{weather.humidity}
+        Temperature: {weather.temp} | Weather: {weather.condition} | Time: {weather.time} | UV: {weather.uv} | Wind Speed: {weather.windSpeed} | Probability of Precipitation: {weather.Probability_of_precipitation} | Humidity: {weather.humidity}
       </div>
     </div>
   );
 }
-//hi
+
 export default HomePage;
