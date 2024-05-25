@@ -34,18 +34,21 @@ function SearchPage() {
   }, [term]);
 
   const handleCenterClick = (center) => {
-    console.log("Navigating with:", center.name, center.address, center.des, center.phone, center.use_type, center.hours); // This should log the center object
     navigate(`/center/details`, { state: { center } });
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleMapRadiusClick = () => {
+    navigate('/radius');
   };
 
   const totalPages = Math.ceil(coolingCenters.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentCenters = coolingCenters.slice(startIndex, endIndex);
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
 
   return (
     <div className="search-page">
@@ -61,12 +64,12 @@ function SearchPage() {
               </button>
             ))}
           </div>
-
           <div className="pagination">
             {Array.from({ length: totalPages }, (_, i) => (
               <button key={i} onClick={() => handlePageChange(i + 1)}>{i + 1}</button>
             ))}
           </div>
+          <button onClick={handleMapRadiusClick} className="map-radius-button">Map Radius</button>
         </>
       ) : <p>No results found.</p>}
     </div>

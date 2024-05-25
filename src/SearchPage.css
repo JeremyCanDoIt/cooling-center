@@ -54,3 +54,18 @@
   .pagination button:hover {
     background-color: #bfbfbf;
   }
+
+  .map-radius-button {
+    padding: 10px 20px;
+    margin: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .map-radius-button:hover {
+    background-color: #0056b3;
+  }
+  
