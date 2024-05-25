@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { GoogleMap, useJsApiLoader, Circle, Marker } from '@react-google-maps/api';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { GoogleMap, useJsApiLoader, Circle, Marker, InfoWindow } from '@react-google-maps/api';
 import { googleMapsConfig } from './config';  
 
 const containerStyle = {
@@ -17,6 +17,7 @@ const mapWrapperStyle = {
 
 function Radius() {
   const location = useLocation();
+  const navigate = useNavigate();
   const coolingCenters = useMemo(() => location.state ? location.state.coolingCenters : [], [location.state]);
   
   console.log('Cooling Centers:', coolingCenters);
@@ -28,6 +29,7 @@ function Radius() {
   });
   const [userLocation, setUserLocation] = useState(null); 
   const [markers, setMarkers] = useState([]); 
+  const [selectedMarker, setSelectedMarker] = useState(null);
 
   const memoizedLibraries = useMemo(() => googleMapsConfig.libraries, []);
 
@@ -116,6 +118,10 @@ function Radius() {
     }
   }, []);
 
+  const handleMoreInfoClick = (center) => {
+    navigate('/center/details', { state: { center } });
+  };
+
   console.log('Is Loaded:', isLoaded);  
   console.log('Load Error:', loadError);  
   console.log('Center:', center);  
@@ -142,9 +148,21 @@ function Radius() {
           <Marker
             key={index}
             position={{ lat: marker.lat, lng: marker.lng }}
-            // label={marker.name}
+            onClick={() => setSelectedMarker(marker)}
           />
         ))}
+        {selectedMarker && (
+          <InfoWindow
+            position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
+            onCloseClick={() => setSelectedMarker(null)}
+          >
+            <div>
+              <h3>{selectedMarker.name}</h3>
+              <p>{selectedMarker.address}</p>
+              <button onClick={() => handleMoreInfoClick(selectedMarker)}>Get More Information</button>
+            </div>
+          </InfoWindow>
+        )}
       </GoogleMap>
       {/* <h1>{center.name || 'Information Not Available'}</h1> */}
     </div>

@@ -4,7 +4,7 @@ import HomePage from './HomePage';
 import TipsPage from './TipsPage';
 import SearchPage from './SearchPage';
 import CoolingCenterDetail from './CoolingCenterDetail';
-import Radius from './radius';  // Import the Radius component
+import Radius from './radius';  
 
 function App() {
   return (
@@ -14,8 +14,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/search/:term" element={<SearchPage />} />
           <Route path="/tips" element={<TipsPage />} />
-          <Route path="/center/:centerName" element={<CoolingCenterDetail />} />
-          <Route path="/radius" element={<Radius />} />  {/* Add the new route for the Radius page */}
+          <Route path="/center/details" element={<CoolingCenterDetail />} />  
+          <Route path="/radius" element={<Radius />} />  
         </Routes>
       </div>
     </Router>
