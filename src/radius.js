@@ -58,22 +58,35 @@ function Radius() {
   useEffect(() => {
     if (coolingCenters.length > 0 && isLoaded) {
       const geocoder = new window.google.maps.Geocoder();
-      const geocodePromises = coolingCenters.map(center =>
-        new Promise((resolve, reject) => {
+  
+      const geocodeCenter = (center) => {
+        return new Promise((resolve, reject) => {
           geocoder.geocode({ address: center.address }, (results, status) => {
-            console.log(`Geocoding status for ${center.name}: ${status}`); // Log geocoding status
+            console.log(`Geocoding status for ${center.name} by address: ${status}`);
             if (status === 'OK' && results && results.length > 0) {
               const location = results[0].geometry.location;
-              console.log(`Geocoded ${center.name}: ${location.lat()}, ${location.lng()}`); // Detailed log
+              console.log(`Geocoded ${center.name} by address: ${location.lat()}, ${location.lng()}`);
               resolve({ ...center, lat: location.lat(), lng: location.lng() });
             } else {
-              console.error(`Geocode was not successful for ${center.name} for the following reason: ${status}`);
-              reject(`Geocode was not successful for ${center.name} for the following reason: ${status}`);
+              console.error(`Geocode by address was not successful for ${center.name}, trying by name: ${status}`);
+              geocoder.geocode({ address: center.name }, (resultsByName, statusByName) => {
+                console.log(`Geocoding status for ${center.name} by name: ${statusByName}`);
+                if (statusByName === 'OK' && resultsByName && resultsByName.length > 0) {
+                  const locationByName = resultsByName[0].geometry.location;
+                  console.log(`Geocoded ${center.name} by name: ${locationByName.lat()}, ${locationByName.lng()}`);
+                  resolve({ ...center, lat: locationByName.lat(), lng: locationByName.lng() });
+                } else {
+                  console.error(`Geocode by name was not successful for ${center.name} for the following reason: ${statusByName}`);
+                  reject(`Geocode by name was not successful for ${center.name} for the following reason: ${statusByName}`);
+                }
+              });
             }
           });
-        })
-      );
-
+        });
+      };
+  
+      const geocodePromises = coolingCenters.map(center => geocodeCenter(center));
+  
       Promise.all(geocodePromises)
         .then(centersWithLatLng => {
           console.log('Geocoded Centers:', centersWithLatLng);  // Debugging log
@@ -85,7 +98,7 @@ function Radius() {
         .catch(error => console.error('Geocoding error:', error));
     }
   }, [coolingCenters, isLoaded]);
-
+  
   useEffect(() => {
     // Get user's current location
     if (navigator.geolocation) {
