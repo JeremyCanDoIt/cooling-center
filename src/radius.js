@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { GoogleMap, useJsApiLoader, Circle, Marker } from '@react-google-maps/api';
-import { googleMapsConfig } from './config';  // Import your configuration
+import { googleMapsConfig } from './config';  
 
 const containerStyle = {
   width: '900px',
@@ -12,24 +12,22 @@ const mapWrapperStyle = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  height: '100vh',  // Full viewport height
+  height: '100vh',  
 };
 
 function Radius() {
   const location = useLocation();
   const coolingCenters = useMemo(() => location.state ? location.state.coolingCenters : [], [location.state]);
   
-  // Log the entire coolingCenters array to verify it is passed correctly
   console.log('Cooling Centers:', coolingCenters);
 
-  const [mapRadius, setMapRadius] = useState(1000); // Default radius in meters
   const [center, setCenter] = useState({
-    lat: 34.0522,  // Default latitude for Los Angeles
+    lat: 34.0522,  
     lng: -118.2437,
     name: 'Default Center'
   });
-  const [userLocation, setUserLocation] = useState(null); // User's location
-  const [markers, setMarkers] = useState([]); // Array of markers for cooling centers
+  const [userLocation, setUserLocation] = useState(null); 
+  const [markers, setMarkers] = useState([]); 
 
   const memoizedLibraries = useMemo(() => googleMapsConfig.libraries, []);
 
@@ -50,7 +48,7 @@ function Radius() {
     draggable: false,
     editable: false,
     visible: true,
-    radius: mapRadius,
+    radius: 1000, 
     center: center,
     zIndex: 1
   };
@@ -89,10 +87,10 @@ function Radius() {
   
       Promise.all(geocodePromises)
         .then(centersWithLatLng => {
-          console.log('Geocoded Centers:', centersWithLatLng);  // Debugging log
+          console.log('Geocoded Centers:', centersWithLatLng);  
           setMarkers(centersWithLatLng);
           if (centersWithLatLng.length > 0) {
-            setCenter(centersWithLatLng[0]);  // Include name in the center state
+            setCenter(centersWithLatLng[0]);  
           }
         })
         .catch(error => console.error('Geocoding error:', error));
@@ -100,7 +98,6 @@ function Radius() {
   }, [coolingCenters, isLoaded]);
   
   useEffect(() => {
-    // Get user's current location
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -108,7 +105,7 @@ function Radius() {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           });
-          console.log('User Location:', position.coords);  // Debugging log
+          console.log('User Location:', position.coords);  
         },
         (error) => {
           console.error('Error: The Geolocation service failed.', error);
@@ -119,17 +116,17 @@ function Radius() {
     }
   }, []);
 
-  console.log('Is Loaded:', isLoaded);  // Debugging log
-  console.log('Load Error:', loadError);  // Debugging log
-  console.log('Center:', center);  // Debugging log
-  console.log('Markers:', markers);  // Debugging log
+  console.log('Is Loaded:', isLoaded);  
+  console.log('Load Error:', loadError);  
+  console.log('Center:', center);  
+  console.log('Markers:', markers);  
 
   return isLoaded ? (
     <div style={mapWrapperStyle}>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
-        zoom={10}
+        zoom={9}
       >
         <Circle
           center={center}
