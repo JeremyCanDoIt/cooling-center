@@ -42,7 +42,7 @@ function SearchPage() {
   };
 
   const handleMapRadiusClick = () => {
-    navigate('/radius');
+    navigate('/radius', { state: { coolingCenters } });
   };
 
   const totalPages = Math.ceil(coolingCenters.length / itemsPerPage);
