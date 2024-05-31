@@ -61,7 +61,7 @@ function Radius() {
   
       const geocodeCenter = (center) => {
         return new Promise((resolve, reject) => {
-          geocoder.geocode({ address: center.address }, (results, status) => {
+          geocoder.geocode({ address: center.address +", Los Angeles" }, (results, status) => {
             console.log(`Geocoding status for ${center.name} by address: ${status}`);
             if (status === 'OK' && results && results.length > 0) {
               const location = results[0].geometry.location;
