@@ -54,8 +54,9 @@ function HomePage() {
     const fetchWeather = async () => {
       try {
         const response = await fetch(
-          'https://api.tomorrow.io/v4/weather/realtime?location=33.669445%2C%20-117.823059&apikey=MndmBKtxHWc3AIs52cL2msF1kgbXAFE7'
+          'https://api.tomorrow.io/v4/weather/realtime?location=33.669445%2C%20-117.823059&apikey=KhFP3byInIHIGi5oeDWUywBFECUoDFRR'
         );
+        //KhFP3byInIHIGi5oeDWUywBFECUoDFRR
         const data = await response.json();
 
         if (!response.ok || data.error) {
