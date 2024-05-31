@@ -102,6 +102,19 @@ function HomePage() {
   const handleSearchSubmit = () => {
     navigate(`/search/${encodeURIComponent(searchTerm)}`);
   };
+  const handleUseCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        const { latitude, longitude } = position.coords;
+        navigate(`/nearest-center`, { state: { latitude, longitude } });
+      }, error => {
+        console.error('Error getting location:', error);
+        alert('Unable to retrieve your location.');
+      });
+    } else {
+      alert('Geolocation is not supported by this browser.');
+    }
+  };
 
   return (
     <div className="App">
@@ -109,15 +122,19 @@ function HomePage() {
         Find a Cooling Center Near You
       </div>
       <div className="searchBarContainer">
-        <input
-          className='searchBar'
-          type="text"
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
-        <button className="searchButton" onClick={handleSearchSubmit}>Search</button>
+        <div className="searchInputContainer">
+          <input
+            className="searchBar"
+            type="text"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+          <button className="searchButton" onClick={handleSearchSubmit}>Search</button>
+        </div>
+        <div className="useCurrentLocation" onClick={handleUseCurrentLocation}>Use Current Location</div>
       </div>
+
       <div className="Tips">
         <button className="tipsButton" onClick={handleTipsClick}>Tips to Cool Down</button>
       </div>
