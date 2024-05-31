@@ -13,6 +13,8 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/search/:term" element={<SearchPage />} />
+          <Route path="/nearest-center" element={<SearchPage />} />
+
           <Route path="/tips" element={<TipsPage />} />
           <Route path="/center/details" element={<CoolingCenterDetail />} />  
           <Route path="/radius" element={<Radius />} />  

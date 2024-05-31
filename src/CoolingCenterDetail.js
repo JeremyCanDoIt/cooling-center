@@ -86,7 +86,7 @@ function CoolingCenterDetail() {
   useEffect(() => {
     if (center && center.address && isLoaded) {
       const geocoder = new window.google.maps.Geocoder();
-      geocoder.geocode({ address: center.address }, (results, status) => {
+      geocoder.geocode({ address: center.address +", Los Angeles" }, (results, status) => {
         if (status === 'OK' && results && results.length > 0) {
           const location = results[0].geometry.location;
           setCenterLatLng({ lat: location.lat(), lng: location.lng() });
