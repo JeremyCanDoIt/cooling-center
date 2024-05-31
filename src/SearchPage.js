@@ -83,7 +83,7 @@ function SearchPage() {
         .sort((a, b) => a.distance - b.distance) // Ascending order for closest centers first
         .slice(0, 9);
     };
-    
+
     const handleUserLocation = async () => {
       if (location.state && location.state.latitude && location.state.longitude) {
         const centers = await fetchCoolingCentersWithCoordinates();
@@ -105,7 +105,9 @@ function SearchPage() {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-
+  const handleMapRadiusClick = () => {
+    navigate('/radius', { state: { coolingCenters } });
+  };
   const totalPages = Math.ceil(coolingCenters.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -146,6 +148,8 @@ function SearchPage() {
               <button key={i} onClick={() => handlePageChange(i + 1)}>{i + 1}</button>
             ))}
           </div>
+          <button onClick={handleMapRadiusClick} className="map-radius-button">Map Radius</button>
+
         </>
       ) : closestCenters.length === 0 && <p>No results found.</p>}
     </div>
