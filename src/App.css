@@ -43,13 +43,19 @@
   top: 40%;
   left: 5%;
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  flex-direction: column; /* Arrange items in a column */
+  align-items: flex-start; /* Align items to the start */
   margin: 3% 3%;
 }
 
+.searchInputContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
 .searchBar {
-  flex: 1; 
+  flex: 1;
   width: 40vw; /* Adjust width to accommodate button */
   max-width: 700px;
   border-radius: 20px;
@@ -64,16 +70,28 @@
 .searchButton {
   border-radius: 20px;
   padding: 10px 20px;
-  background-color: #5c9ed1; 
+  background-color: #5c9ed1;
   color: white;
   border: none;
   cursor: pointer;
-  margin: 1% 1%;
-
+  margin-left: 10px; /* Space between search bar and button */
 }
 
 .searchButton:hover {
   background-color: #407aa6;
+}
+
+.useCurrentLocation {
+  margin-top: 10px; /* Add some margin to separate from the search bar */
+  cursor: pointer;
+  color: #5c9ed1;
+  text-decoration: underline;
+  padding: 5px;
+
+}
+
+.useCurrentLocation:hover {
+  color: #407aa6;
 }
 
 .tipsButton {
