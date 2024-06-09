@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import './CenterDetails.css';
-import { GoogleMap, Marker, useJsApiLoader, DirectionsRenderer } from '@react-google-maps/api'; // Import DirectionsRenderer
+import { GoogleMap, Marker, useJsApiLoader, DirectionsRenderer } from '@react-google-maps/api';
 
-// Define libraries as a constant outside of the component function
 const libraries = ['places'];
 
 const uvcodemap = {
@@ -54,18 +53,17 @@ function CoolingCenterDetail() {
   const [centerLatLng, setCenterLatLng] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
   const [directions, setDirections] = useState(null);
+  const [steps, setSteps] = useState([]);
   const [weather, setWeather] = useState({ temp: '', condition: '', time: '', uv: '', windSpeed: '', Probability_of_precipitation: '', humidity: '' });
 
-  // Memoize the libraries array to prevent unnecessary re-renders
   const memoizedLibraries = useMemo(() => libraries, []);
 
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: 'AIzaSyA5uB3h3JEXkF6wE7Ldt358C9iTY6yh6qo',
-    libraries: memoizedLibraries, // Use the memoized libraries array
+    libraries: memoizedLibraries,
   });
 
   useEffect(() => {
-    // Get user's current location
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -86,7 +84,7 @@ function CoolingCenterDetail() {
   useEffect(() => {
     if (center && center.address && isLoaded) {
       const geocoder = new window.google.maps.Geocoder();
-      geocoder.geocode({ address: center.address +", Los Angeles" }, (results, status) => {
+      geocoder.geocode({ address: center.address + ", Los Angeles" }, (results, status) => {
         if (status === 'OK' && results && results.length > 0) {
           const location = results[0].geometry.location;
           setCenterLatLng({ lat: location.lat(), lng: location.lng() });
@@ -98,7 +96,6 @@ function CoolingCenterDetail() {
   }, [center, isLoaded]);
 
   useEffect(() => {
-    // Calculate directions when both userLocation and centerLatLng are available
     if (userLocation && centerLatLng) {
       const directionsService = new window.google.maps.DirectionsService();
       directionsService.route(
@@ -110,6 +107,7 @@ function CoolingCenterDetail() {
         (result, status) => {
           if (status === 'OK') {
             setDirections(result);
+            setSteps(result.routes[0].legs[0].steps);
           } else {
             console.error('Directions request failed due to ' + status);
           }
@@ -122,9 +120,8 @@ function CoolingCenterDetail() {
     const fetchWeather = async () => {
       try {
         const response = await fetch(
-          'https://api.tomorrow.io/v4/weather/realtime?location=34.052235%2C-118.243683&apikey=KhFP3byInIHIGi5oeDWUywBFECUoDFRR'
+          'https://api.tomorrow.io/v4/weather/realtime?location=34.052235%2C-118.243683&apikey=YOUR_API_KEY'
         );
-        //MndmBKtxHWc3AIs52cL2msF1kgbXAFE7
         const data = await response.json();
 
         if (!response.ok || data.error) {
@@ -178,16 +175,26 @@ function CoolingCenterDetail() {
         Temperature: {weather.temp} | Weather: {weather.condition} | Time: {weather.time} | UV: {weather.uv} | Wind Speed: {weather.windSpeed} | Probability of Precipitation: {weather.Probability_of_precipitation} | Humidity: {weather.humidity}
       </div>
       {isLoaded && centerLatLng && (
-        <GoogleMap
-          zoom={18} // Change the zoom level to zoom in very close
-          center={centerLatLng}
-          mapContainerStyle={{ height: '400px', width: '100%' }}
-        >
-          <Marker position={centerLatLng} />
-          {userLocation && directions && (
-            <DirectionsRenderer directions={directions} />
-          )}
-        </GoogleMap>
+        <>
+          <GoogleMap
+            zoom={18}
+            center={centerLatLng}
+            mapContainerStyle={{ height: '400px', width: '100%' }}
+          >
+            <Marker position={centerLatLng} />
+            {userLocation && directions && (
+              <DirectionsRenderer directions={directions} />
+            )}
+          </GoogleMap>
+          <div className="directions-steps">
+            <h2>Directions</h2>
+            <ol>
+              {steps.map((step, index) => (
+                <li key={index}>{step.instructions.replace(/<[^>]+>/g, '')}</li>
+              ))}
+            </ol>
+          </div>
+        </>
       )}
     </div>
   );
