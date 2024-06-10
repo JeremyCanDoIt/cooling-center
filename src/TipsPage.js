@@ -9,9 +9,11 @@ function TipsPage() {
             </div>
             <div className="image1">
                 <img src="heatStroke.png" alt="Prevent Heat Stroke" />
+                <p className="image-text">St. Mary's Health Care System</p>
             </div>
             <div className="image2">
                 <img src="firstaid.png" alt="First Aid for Heat Illness" style={{ width: '100vh', height: 'auto' }}/>
+                <p className="image-text">Occupational Safety and Health Administration</p>
             </div>
             <div className="div1">
                 <p>
