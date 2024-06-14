@@ -120,7 +120,7 @@ function CoolingCenterDetail() {
     const fetchWeather = async () => {
       try {
         const response = await fetch(
-          'https://api.tomorrow.io/v4/weather/realtime?location=34.052235%2C-118.243683&apikey=YOUR_API_KEY'
+          'https://api.tomorrow.io/v4/weather/realtime?location=34.052235%2C-118.243683&apikey=MndmBKtxHWc3AIs52cL2msF1kgbXAFE7'
         );
         const data = await response.json();
 
